@@ -1,12 +1,13 @@
-pragma solidity^0.5.16;
+pragma solidity >=0.4.21 <0.7.0;
 
 contract Procurement{
     struct Bid{
-        uint tenderid; 
         address owner;
+        uint tenderid; 
+        uint id;
         uint amount;
-        bytes32 email;
-        string desc; 
+        
+         
     }
     
 
@@ -24,8 +25,11 @@ contract Procurement{
     
     
     uint256 latestId = 0;
+    address owner;
+    address manager;
 
     uint latestTenderId = 0;
+    uint latestBidId = 0;
   
     function createTender(bytes32 _name) public returns(uint) {
         latestTenderId++;
@@ -48,21 +52,23 @@ contract Procurement{
     function createBid(uint _tenderid, uint _amount)public returns(uint) {
         latestBidId++;
         owner = msg.sender;
-        tenderid = _tenderid;
-        bids[latestBidId] = Tender(owner, latestBidId, _name);
+        
+        bids[latestBidId] = Bid(owner, _tenderid, latestBidId, _amount);
 
         return latestBidId;
     }
-    function setBid(uint _amount, bytes32 _email, string memory _desc) public {
-        Bid memory newBid = Bid({
-            owner: msg.sender,
-            amount: _amount,
-            email: _email,
-            desc: _desc
-        });
-        bids.push(newBid);
+    function getBid(uint _id)public view returns(uint, uint, address) {
+       return( 
+           bids[_id].tenderid,
+           bids[_id].id,
+           bids[_id].owner
+           );
+        
+
+
+    }
         
         
 
     }
-}
+
