@@ -13,8 +13,10 @@ contract Procurement{
 
     struct Tender {
         address manager;
+        uint deadline;
+        string name;
         uint id;
-        bytes32 name;
+        uint amount;
 
     }
     
@@ -31,17 +33,19 @@ contract Procurement{
     uint latestTenderId = 0;
     uint latestBidId = 0;
   
-    function createTender(bytes32 _name) public returns(uint) {
+    function createTender(uint _deadline, string memory _name, uint _amount) public returns(uint) {
         latestTenderId++;
         manager = msg.sender;
 
-        tenders[latestTenderId] = Tender(manager, latestTenderId, _name);
+        tenders[latestTenderId] = Tender(manager, _deadline, _name, latestTenderId, _amount);
 
         return latestTenderId;
     }
-    function getTender(uint _id)public view returns(address, uint, bytes32) {
+    function getTender(uint _id)public view returns(address, uint, uint, uint, string memory) {
        return( 
            tenders[_id].manager,
+           tenders[_id].deadline,
+           tenders[_id].amount,
            tenders[_id].id,
            tenders[_id].name
            );
