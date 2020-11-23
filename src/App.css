@@ -25,9 +25,9 @@ container {
 }
 form {
   max-width: 100%;
-  padding: 0%;
+  padding: 10px;
   text-align: left;
-  
+  align-items: right;
   box-shadow: 0 0.313rem 3.875rem 0 rgba(0, 0, 0, 0.19);
   border-radius: 1.25rem;
   font-size: 1.25rem;

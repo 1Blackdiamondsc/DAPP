@@ -103,11 +103,11 @@ class App extends Component {
                     <a href = { this.state.etherscanlink } target = "_blank" > Last Transaction details </a> 
                     </div>
                     <div class="row">
-                        <div className="col-lg-12 col-md-10 col-sm-8 col-md-offset-3">
+                        <div className="col-lg-12 col-lg-offset-3">
                             <div className = "container-fluid" >
                                 <div className = "panel-heading" > A Basic Panel </div > 
                                 <form onSubmit = { this.handleIssueProcurement }>
-                                    <div className="col-lg-10 col-8">
+                                    <div className="col-lg-12 col-10">
                                         <div className="form-group">
                                             <label>Name:</label>
                                             <input 
@@ -145,7 +145,7 @@ class App extends Component {
                                             />
                                             
                                         </div>
-                                        <button variant="primary" type="submit">Submit</button>
+                                        <button variant="primary" class="btn btn-primary mb-2" type="submit">Submit</button>
                                         
                                     </div>
                                 
