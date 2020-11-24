@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import contract from "truffle-contract";
+import TruffleContract from "truffle-contract";
 import ProcurementContract from "./contracts/Procurement.json";
 import "./App.css";
 import getWeb3 from "./getWeb3";
@@ -27,9 +27,12 @@ class App extends Component {
     }
     componentDidMount = async() => {
         try {
+
+            this.handleChange = this.handleChange.bind(this);
+            this.handleIssueProcurement = this.handleIssueProcurement.bind(this);
             // Get network provider and web3 instance.
             const web3 = await getWeb3();
-
+            const contract = TruffleContract(ProcurementContract);
 
             // Use web3 to get the user's accounts.
             const accounts = await web3.eth.getAccounts();
@@ -55,11 +58,12 @@ class App extends Component {
         }
     };
     async handleIssueProcurement(event) {
-        if (typeof this.state.procurementInstance !== 'undefined') {
-            event.preventDefault();
-            let result = await this.state.procurementInstance.methods.issueProcurement(this.state.procurementName, this.state.procurementDeadline).send({ from: this.state.account, value: this.state.web3.utils.toWei(this.state.procurementAmount, 'ether') })
-            this.setLastTransactionDetails(result)
-        }
+        event.preventDefault();
+
+        const { accounts, contract } = this.state;
+        await contract.createTender(this.state.procurementDeadline, this.state.procurementName, this.state.procurementAmount, {from: accounts[0]});
+        const response = await contract.getTender();
+        this.setState({storageValue: response});
     }
     handleChange(event)
     {
@@ -88,7 +92,12 @@ class App extends Component {
         this.setState({etherscanLink: etherscanBaseUrl})
         }
     }
-
+    runExample = async () => {
+        const { accounts, contract } = this.state;
+        await contract.set(5, { from: accounts[0] });
+        const response = await contract.get();
+        this.setState({ storegaValue: response.toNumeber() });
+    };
 
 
 
@@ -97,10 +106,13 @@ class App extends Component {
 
         return ( 
             <div className = "App" >
-                <grid>
+                <div className="grid">
                     
                     <div className="col-lg-12 col-md-10 col-sm-8">
-                    <a href = { this.state.etherscanlink } target = "_blank" > Last Transaction details </a> 
+                        <a href = { this.state.etherscanlink } target = "_blank" > Last Transaction details </a>
+                        
+                            
+                    
                     </div>
                     <div class="row">
                         <div className="col-lg-12 col-lg-offset-3">
@@ -111,7 +123,7 @@ class App extends Component {
                                         <div className="form-group">
                                             <label>Name:</label>
                                             <input 
-                                                class="form-control form-control-lg"
+                                                className="form-control form-control-lg"
                                                 type="textarea"
                                                 name="procuremntName"
                                                 value={this.state.procurementName}
@@ -123,7 +135,7 @@ class App extends Component {
                                         <div className="form-group">
                                             <label>Deadline:</label>
                                             <input 
-                                                class="form-control form-control-lg"
+                                                className="form-control form-control-lg"
                                                 type="text"
                                                 name="procuremntDeadline" 
                                                 value={this.state.procurementDeadline} 
@@ -136,7 +148,7 @@ class App extends Component {
                                         <div className="form-group">
                                             <label>Amount:</label>
                                             <input 
-                                                class="form-control form-control-lg"
+                                                className="form-control form-control-lg"
                                                 type="text"
                                                 name="procuremntAmount" 
                                                 value={this.state.procurementAmount} 
@@ -156,7 +168,7 @@ class App extends Component {
 
                         </div> 
                     </div> 
-                </grid> 
+                </div> 
             </div >
         );
     }
