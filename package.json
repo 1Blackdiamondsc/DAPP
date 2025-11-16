@@ -6,11 +6,11 @@
     "@david.kucsai/react-pdf-table": "^0.3.0",
     "@react-pdf/renderer": "^1.6.12",
     "bootstrap": "^4.5.3",
-    "npm-upgrade": "^2.0.4",
+    "npm-upgrade": "^3.1.2",
     "react": "16.11.0",
     "react-bootstrap": "^1.4.0",
     "react-dom": "16.11.0",
-    "react-scripts": "3.2.0",
+    "react-scripts": "5.0.1",
     "truffle-contract": "^4.0.31",
     "truffle-hdwallet-provider": "^1.0.0-web3one.5",
     "web3": "1.2.2"
